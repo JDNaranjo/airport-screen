@@ -48,18 +48,21 @@ public class airpotScreenController {
     @FXML
     private TableColumn<Flight, String> remarksColumn;
     
-    private Airport airport = new Airport();
+    private Airport airport;
     
     ObservableList<Flight> data = FXCollections.observableArrayList();
 
     @FXML
     void initialize() throws InterruptedException {
+    	airport = new Airport();
     	TimeThread tt = new TimeThread(this);
     	tt.start();
     }
     
     @FXML
     void generateFlights(ActionEvent event) {
+    	
+    	data.clear();
     	
     	for (int i = 0; i < Integer.parseInt(textFieldFlights.getText()); i++) {
 			

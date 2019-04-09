@@ -6,11 +6,14 @@ import java.util.List;
 public class Airport {
 	
 	private List<Flight> flights = new ArrayList<Flight>();
-	private String[] airlines = new String[] {"Avianca","Copa Airlines", "EasyFly", "LATAM", "Satena",
+	
+	public final static String[] AIRLINES = new String[] {"Avianca","Copa Airlines", "EasyFly", "LATAM", "Satena",
 			"VivaColombia", "Wingo" }; 
-	private String[] cities = new String[] {"Atlanta","Barranquilla", "Bogota", "Cali", "Cartagena",
+	public final static String[] CITIES = new String[] {"Atlanta","Barranquilla", "Bogota", "Cali", "Cartagena",
 			"Medellin", "New York", "Paris", "Madrid", "Berlin", "Amsterdam" }; 
 
+	public Airport() {}
+	
 	public List<Flight> getFlights() {
 		return flights;
 	}
@@ -43,7 +46,7 @@ public class Airport {
 	public String airlineRandom() {
 		
 		int airlineNumber = (int)(Math.random()*7-1);
-		String airline = airlines[airlineNumber];
+		String airline = AIRLINES[airlineNumber];
 		
 		return airline;
 		
@@ -59,7 +62,7 @@ public class Airport {
 	
 	public String toRandom() {
 		int cityNumber = (int)(Math.random()*12-1);
-		String city = cities[cityNumber];
+		String city = CITIES[cityNumber];
 		
 		return city;
 	}
