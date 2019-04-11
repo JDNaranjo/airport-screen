@@ -18,31 +18,31 @@ public class TimeThread extends Thread {
 			
 		try {	
 			
-				LocalDateTime locaDate = LocalDateTime.now();
-				int hours  = locaDate.getHour();
-				int minutes = locaDate.getMinute();
-				int seconds = locaDate.getSecond();
-				String amPm = "";
-				String n="";
-				String m="";
-				if(hours>12) {
-					hours = hours-12;
-					amPm = "PM";
-				}else {
-					amPm="AM";
-				}
-				if(minutes<10) {
-					n="0";
-				}
-				if(seconds<10) {
-					m="0";
-				}
+			LocalDateTime locaDate = LocalDateTime.now();
+			int hours  = locaDate.getHour();
+			int minutes = locaDate.getMinute();
+			int seconds = locaDate.getSecond();
+			String amPm = "";
+			String n="";
+			String m="";
+			if(hours>12) {
+				hours = hours-12;
+				amPm = " PM";
+			}else {
+				amPm=" AM";
+			}
+			if(minutes<10) {
+				n="0";
+			}
+			if(seconds<10) {
+				m="0";
+			}
 			
-			String time = "" + hours + ":"+n+ minutes +":"+m+ seconds +" "+amPm;
-				aSC.setTime(time);
+			String time = "" + hours + ":"+n+ minutes +":"+m+seconds+amPm;
+			aSC.setTime(time);
 			
-		
 			sleep(1000);
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

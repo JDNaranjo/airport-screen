@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Airport {
@@ -18,7 +19,7 @@ public class Airport {
 		return flights;
 	}
 
-	public void setFlights(List<Flight> flights) {
+	public void setFlights(ArrayList<Flight> flights) {
 		this.flights = flights;
 	} 
 	
@@ -33,12 +34,25 @@ public class Airport {
 		int hourRandom = (int)(Math.random()*12+1);
 		int minutesRandom = (int)(Math.random()*60+1);
 		String n="";
+		String m="";
+		String amPm="";
+		int hourTime = (int)(Math.random()*2);
+		
+		if(hourTime == 0) {
+			amPm = " AM";
+		}else {
+			amPm = " PM";
+		}
 		
 		if(minutesRandom<10) {
 			n="0";
 		}
 		
-		time = ""+hourRandom+":"+n+minutesRandom;
+		if(hourRandom<10) {
+			m="0";
+		}
+		
+		time = m+hourRandom+":"+n+minutesRandom+amPm;
 		
 		return time;
 	}
@@ -55,7 +69,14 @@ public class Airport {
 	public String flightRandom(String airline) {
 		int flightNumber = (int)(Math.random()*1000);
 		airline = airline.toUpperCase();
-		String flight=""+airline.charAt(0)+airline.charAt(1)+" "+flightNumber;
+		
+		String n="";
+		if (flightNumber<10) {
+			n="00";
+		}else if(flightNumber<100) {
+			n="0";
+		}
+		String flight=""+airline.charAt(0)+airline.charAt(1)+" "+n+flightNumber;
 		
 		return flight;
 	}
@@ -97,6 +118,87 @@ public class Airport {
 		}
 		
 		return remarks;
+	}
+	
+	public ArrayList<Flight> orderByTimeLH(ArrayList<Flight> flights) {
+		Collections.sort(flights, new TimeComparator());
+		return flights;
+	}
+	
+	public ArrayList<Flight> orderByTimeHL(ArrayList<Flight> flights) {
+		Flight temp;
+	    for(int I = 0; I< flights.size()-1; I++) {
+	        for(int J = 0; J < flights.size()-I-1; J++) {
+	            if(flights.get(J).compareTo(flights.get(J+1))<0) {
+	                temp = flights.get(J);
+	                flights.set(J, flights.get(J+1));
+	                flights.set(J+1, temp);
+	            }
+	        }
+	    }
+		
+		return flights;
+	}
+	
+	public ArrayList<Flight> orderByAirlineAZ(ArrayList<Flight> flights) {
+		
+		int minimum; 
+		Flight temp;
+
+        for(int I = 0; I < flights.size()-1 ; I++)  {
+             minimum = I ;
+            for(int J = I+1; J < flights.size() ; J++ ) {
+                if(flights.get(J).getAirline().compareTo(flights.get(minimum).getAirline())<0)  {
+                minimum = J ;
+                }
+             }
+            temp = flights.get(minimum);
+            flights.set(minimum, flights.get(I));
+            flights.set(I, temp);
+        }
+		
+		return flights;
+		
+	}
+	
+	public ArrayList<Flight> orderByAirlineZA(ArrayList<Flight> flights) {
+		
+		int minimum; 
+		Flight temp;
+
+        for(int I = 0; I < flights.size()-1 ; I++)  {
+             minimum = I ;
+            for(int J = I+1; J < flights.size() ; J++ ) {
+                if(flights.get(J).getAirline().compareTo(flights.get(minimum).getAirline())>0)  {
+                minimum = J ;
+                }
+             }
+            temp = flights.get(minimum);
+            flights.set(minimum, flights.get(I));
+            flights.set(I, temp);
+        }
+		
+		return flights;
+		
+	}
+	
+public ArrayList<Flight> orderByFlight(ArrayList<Flight> flights) {
+		
+	for( int I = 0 ;I < flights.size() ; I++ ) {
+
+	      Flight temp = flights.get(I);    
+	      int J = I;
+
+	          while(  J > 0  && temp < A[ J -1]) {
+	                A[ J ] = A[ J-1];   
+	                J= J - 1;
+
+	           }
+	           A[ J ] = temp;       
+	     }  
+		
+		return flights;
+		
 	}
 	
 }

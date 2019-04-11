@@ -1,5 +1,7 @@
 package ui;
 
+import java.util.Collections;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import model.Airport;
 import model.Flight;
+import model.TimeComparator;
 import thread.TimeThread;
 
 public class airpotScreenController {
@@ -77,8 +80,10 @@ public class airpotScreenController {
 	    	Flight newFlight = new Flight(time, airline, flightNumber, cityTo, terminal, gate, remarks);
 	    	data.add(newFlight);
 	    	airport.addFlights(newFlight);
+	    	System.out.println(""+time+" - "+airline+" - "+flightNumber+" - "+cityTo+" - "+terminal+" - "
+	    			+gate+" - "+remarks+" - ");
     	}
-    	
+    	Collections.sort(data, new TimeComparator());
     	tableView.setItems(data);
     	
     }
