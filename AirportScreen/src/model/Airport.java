@@ -2,11 +2,10 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class Airport {
 	
-	private List<Flight> flights = new ArrayList<Flight>();
+	private ArrayList<Flight> flights = new ArrayList<Flight>();
 	
 	public final static String[] AIRLINES = new String[] {"Avianca","Copa Airlines", "EasyFly", "LATAM", "Satena",
 			"VivaColombia", "Wingo" }; 
@@ -15,7 +14,7 @@ public class Airport {
 
 	public Airport() {}
 	
-	public List<Flight> getFlights() {
+	public ArrayList<Flight> getFlights() {
 		return flights;
 	}
 
@@ -107,12 +106,12 @@ public class Airport {
 	}
 	
 	public String remarksRandom() {
-		int remarksNumber = (int)(Math.random()*2);
+		int remarksNumber = (int)(Math.random()*3);
 		String remarks="";
 		if(remarksNumber==0) {
 			remarks = "Go to Gate";
 		}else if(remarksNumber==1) {
-			remarks="";
+			remarks="Wait on room";
 		}else {
 			remarks="Delayed";
 		}
@@ -142,20 +141,7 @@ public class Airport {
 	
 	public ArrayList<Flight> orderByAirlineAZ(ArrayList<Flight> flights) {
 		
-		int minimum; 
-		Flight temp;
-
-        for(int I = 0; I < flights.size()-1 ; I++)  {
-             minimum = I ;
-            for(int J = I+1; J < flights.size() ; J++ ) {
-                if(flights.get(J).getAirline().compareTo(flights.get(minimum).getAirline())<0)  {
-                minimum = J ;
-                }
-             }
-            temp = flights.get(minimum);
-            flights.set(minimum, flights.get(I));
-            flights.set(I, temp);
-        }
+		Collections.sort(flights, new AirlineComparator());
 		
 		return flights;
 		
@@ -182,23 +168,271 @@ public class Airport {
 		
 	}
 	
-public ArrayList<Flight> orderByFlight(ArrayList<Flight> flights) {
+	public ArrayList<Flight> orderByFlightAZ(ArrayList<Flight> flights) {
 		
-	for( int I = 0 ;I < flights.size() ; I++ ) {
-
-	      Flight temp = flights.get(I);    
-	      int J = I;
-
-	          while(  J > 0  && temp < A[ J -1]) {
-	                A[ J ] = A[ J-1];   
-	                J= J - 1;
-
-	           }
-	           A[ J ] = temp;       
-	     }  
-		
+		for( int I = 0 ;I < flights.size() ; I++ ) {
+	
+		     Flight temp = flights.get(I);    
+		     int J = I;
+	         while(  J > 0  && temp.getFlight().compareTo(flights.get(J-1).getFlight()) < 0) {
+	        	 flights.set(J, flights.get(J-1));   
+		         J= J - 1;
+	
+		         }
+		     flights.set(J, temp);       
+		}  
+			
 		return flights;
 		
 	}
+	
+public ArrayList<Flight> orderByFlightZA(ArrayList<Flight> flights) {
+		
+		for( int I = 0 ;I < flights.size() ; I++ ) {
+	
+		     Flight temp = flights.get(I);    
+		     int J = I;
+	         while(  J > 0  && temp.getFlight().compareTo(flights.get(J-1).getFlight()) > 0) {
+	        	 flights.set(J, flights.get(J-1));   
+		         J= J - 1;
+	
+		         }
+		     flights.set(J, temp);       
+		}  
+			
+		return flights;
+		
+	}
+
+public ArrayList<Flight> orderByCityAZ(ArrayList<Flight> flights) {
+	
+	Collections.sort(flights, new CityComparator());
+		
+	return flights;
+	
+}
+
+public ArrayList<Flight> orderByCityZA(ArrayList<Flight> flights) {
+	
+	for( int I = 0 ;I < flights.size() ; I++ ) {
+		
+	     Flight temp = flights.get(I);    
+	     int J = I;
+        while(  J > 0  && temp.getArriveCity().compareTo(flights.get(J-1).getArriveCity()) > 0) {
+       	 flights.set(J, flights.get(J-1));   
+	         J= J - 1;
+
+	         }
+	     flights.set(J, temp);       
+	}  
+		
+	return flights;
+	
+}
+
+public ArrayList<Flight> orderByTerminalLH(ArrayList<Flight> flights) {
+	
+	for( int I = 0 ;I < flights.size() ; I++ ) {
+		
+	     Flight temp = flights.get(I);    
+	     int J = I;
+        while(  J > 0  && temp.getTerminal().compareTo(flights.get(J-1).getTerminal()) < 0) {
+       	 flights.set(J, flights.get(J-1));   
+	         J= J - 1;
+
+	         }
+	     flights.set(J, temp);       
+	}  
+		
+	return flights;
+	
+}
+
+public ArrayList<Flight> orderByTerminalHL(ArrayList<Flight> flights) {
+	
+	for( int I = 0 ;I < flights.size() ; I++ ) {
+		
+	     Flight temp = flights.get(I);    
+	     int J = I;
+        while(  J > 0  && temp.getTerminal().compareTo(flights.get(J-1).getTerminal()) > 0) {
+       	 flights.set(J, flights.get(J-1));   
+	         J= J - 1;
+
+	         }
+	     flights.set(J, temp);       
+	}  
+		
+	return flights;
+	
+}
+
+public ArrayList<Flight> orderByGateLH(ArrayList<Flight> flights) {
+	
+	for( int I = 0 ;I < flights.size() ; I++ ) {
+		
+	     Flight temp = flights.get(I);    
+	     int J = I;
+        while(  J > 0  && temp.getGate().compareTo(flights.get(J-1).getGate()) < 0) {
+       	 flights.set(J, flights.get(J-1));   
+	         J= J - 1;
+
+	         }
+	     flights.set(J, temp);       
+	}  
+		
+	return flights;
+	
+}
+
+public ArrayList<Flight> orderByGateHL(ArrayList<Flight> flights) {
+	
+	for( int I = 0 ;I < flights.size() ; I++ ) {
+		
+	     Flight temp = flights.get(I);    
+	     int J = I;
+        while(  J > 0  && temp.getGate().compareTo(flights.get(J-1).getGate()) > 0) {
+       	 flights.set(J, flights.get(J-1));   
+	         J= J - 1;
+
+	         }
+	     flights.set(J, temp);       
+	}  
+		
+	return flights;
+	
+}
+
+public ArrayList<Flight> orderByRemarks(ArrayList<Flight> flights) {
+	
+	for( int I = 0 ;I < flights.size() ; I++ ) {
+		
+	     Flight temp = flights.get(I);    
+	     int J = I;
+        while(  J > 0  && temp.getRemarks().compareTo(flights.get(J-1).getRemarks()) > 0) {
+       	 flights.set(J, flights.get(J-1));   
+	         J= J - 1;
+
+	         }
+	     flights.set(J, temp);       
+	}  
+		
+	return flights;
+	
+}
+
+public int binarySearchByTime(String time) {
+		int low=0;
+		int high = flights.size()-1;
+		int r=-1;
+		while(low<=high) {
+			int mid=(low+high)/2;
+			if(flights.get(mid).getTime().compareTo(time)<0) {
+				low = mid+1;
+			}else if(flights.get(mid).getTime().compareTo(time)>0) {
+				high = mid-1;
+			}else if(flights.get(mid).getTime().compareTo(time)==0){
+				r=mid;
+				return r;
+			}
+		}
+		
+		return -1;
+	}
+
+public int binarySearchByAirline(String airline) {
+	int low=0;
+	int high = flights.size()-1;
+	int r=-1;
+	while(low<=high) {
+		int mid=(low+high)/2;
+		if(flights.get(mid).getAirline().compareTo(airline)<0) {
+			low = mid+1;
+		}else if(flights.get(mid).getAirline().compareTo(airline)>0) {
+			high = mid-1;
+		}else if(flights.get(mid).getAirline().compareTo(airline)==0){
+			r=mid;
+			return r;
+		}
+	}
+	
+	return -1;
+}
+
+public int binarySearchByFlight(String flight) {
+	int low=0;
+	int high = flights.size()-1;
+	int r=-1;
+	while(low<=high) {
+		int mid=(low+high)/2;
+		if(flights.get(mid).getFlight().compareTo(flight)<0) {
+			low = mid+1;
+		}else if(flights.get(mid).getFlight().compareTo(flight)>0) {
+			high = mid-1;
+		}else if(flights.get(mid).getFlight().compareTo(flight)==0){
+			r=mid;
+			return r;
+		}
+	}
+	
+	return -1;
+}
+
+public int binarySearchByCity(String city) {
+	int low=0;
+	int high = flights.size()-1;
+	int r=-1;
+	while(low<=high) {
+		int mid=(low+high)/2;
+		if(flights.get(mid).getArriveCity().compareTo(city)<0) {
+			low = mid+1;
+		}else if(flights.get(mid).getArriveCity().compareTo(city)>0) {
+			high = mid-1;
+		}else if(flights.get(mid).getArriveCity().compareTo(city)==0){
+			r=mid;
+			return r;
+		}
+	}
+	
+	return -1;
+}
+
+public int binarySearchByTerminal(String terminal) {
+	int low=0;
+	int high = flights.size()-1;
+	int r=-1;
+	while(low<=high) {
+		int mid=(low+high)/2;
+		if(flights.get(mid).getTerminal().compareTo(terminal)<0) {
+			low = mid+1;
+		}else if(flights.get(mid).getTerminal().compareTo(terminal)>0) {
+			high = mid-1;
+		}else if(flights.get(mid).getTerminal().compareTo(terminal)==0){
+			r=mid;
+			return r;
+		}
+	}
+	
+	return -1;
+}
+
+public int binarySearchByGate(String gate) {
+	int low=0;
+	
+	int high = flights.size()-1;
+	int r=-1;
+	while(low<=high) {
+		int mid=(low+high)/2;
+		if(flights.get(mid).getGate().compareTo(gate)<0) {
+			low = mid+1;
+		}else if(flights.get(mid).getGate().compareTo(gate)>0) {
+			high = mid-1;
+		}else if(flights.get(mid).getGate().compareTo(gate)==0){
+			r=mid;
+			return r;
+		}
+	}
+	
+	return -1;
+}
 	
 }
